@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lhqs.dao.InsectInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.lhqs.model.InsectInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name_english" jdbcType="VARCHAR" property="nameEnglish" />
+    <result column="name_chinese" jdbcType="VARCHAR" property="nameChinese" />
+    <result column="size" jdbcType="INTEGER" property="size" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name_english, name_chinese, size
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from insect_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from plant..insect_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.lhqs.model.InsectInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into plant..insect_info (name_english, name_chinese, size
+      )
+    values (#{nameEnglish,jdbcType=VARCHAR}, #{nameChinese,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.lhqs.model.InsectInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into plant..insect_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="nameEnglish != null">
+        name_english,
+      </if>
+      <if test="nameChinese != null">
+        name_chinese,
+      </if>
+      <if test="size != null">
+        size,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="nameEnglish != null">
+        #{nameEnglish,jdbcType=VARCHAR},
+      </if>
+      <if test="nameChinese != null">
+        #{nameChinese,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.lhqs.model.InsectInfo">
+    update plant..insect_info
+    <set>
+      <if test="nameEnglish != null">
+        name_english = #{nameEnglish,jdbcType=VARCHAR},
+      </if>
+      <if test="nameChinese != null">
+        name_chinese = #{nameChinese,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        size = #{size,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.lhqs.model.InsectInfo">
+    update plant..insect_info
+    set name_english = #{nameEnglish,jdbcType=VARCHAR},
+      name_chinese = #{nameChinese,jdbcType=VARCHAR},
+      size = #{size,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
